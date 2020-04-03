@@ -48,8 +48,8 @@ class BaseViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = UIColor.purple
-        navigationController?.navigationBar.backgroundColor = UIColor.purple
+        navigationController?.navigationBar.barTintColor = UIColor.purple.withAlphaComponent(0.7)
+        navigationController?.navigationBar.backgroundColor = UIColor.purple.withAlphaComponent(0.7)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

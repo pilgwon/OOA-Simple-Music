@@ -87,4 +87,10 @@ extension LibraryMainViewController: UICollectionViewDelegate, UICollectionViewD
         let width: CGFloat = (collectionView.frame.size.width - 30) / 2
         return CGSize(width: width, height: width + 65)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc: AlbumViewController = AlbumViewController()
+        vc.album = albumList[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
