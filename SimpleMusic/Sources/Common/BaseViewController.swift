@@ -7,11 +7,11 @@
 //
 
 import UIKit
-//import RxSwift
-//import SnapKit
+import RxSwift
+import SnapKit
 
 class BaseViewController: UIViewController {
-//    var disposeBag: DisposeBag = DisposeBag()
+    var disposeBag: DisposeBag = DisposeBag()
 
     func setupView() {
         addSubviews()

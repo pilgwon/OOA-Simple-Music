@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,10 @@
 		1F699C8B24379711001FF5A4 /* UIViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699C8A24379711001FF5A4 /* UIViewPreview.swift */; };
 		1F699C8E2437978F001FF5A4 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699C8C2437978F001FF5A4 /* Assets.swift */; };
 		1F699C8F2437978F001FF5A4 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699C8D2437978F001FF5A4 /* L10n.swift */; };
+		1F699C92243799C5001FF5A4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1F699C91243799C5001FF5A4 /* RxSwift */; };
+		1F699C94243799C5001FF5A4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 1F699C93243799C5001FF5A4 /* RxCocoa */; };
+		1F699C9C24379A02001FF5A4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1F699C9B24379A02001FF5A4 /* SnapKit */; };
+		1F699C9F24379B15001FF5A4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F699C9E24379B15001FF5A4 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,7 @@
 		1F699C8A24379711001FF5A4 /* UIViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreview.swift; sourceTree = "<group>"; };
 		1F699C8C2437978F001FF5A4 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		1F699C8D2437978F001FF5A4 /* L10n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		1F699C9E24379B15001FF5A4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +46,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F699C94243799C5001FF5A4 /* RxCocoa in Frameworks */,
+				1F699C92243799C5001FF5A4 /* RxSwift in Frameworks */,
+				1F699C9F24379B15001FF5A4 /* MediaPlayer.framework in Frameworks */,
+				1F699C9C24379A02001FF5A4 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +61,7 @@
 			children = (
 				1F699C632437928E001FF5A4 /* SimpleMusic */,
 				1F699C622437928E001FF5A4 /* Products */,
+				1F699C9D24379B15001FF5A4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +132,14 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		1F699C9D24379B15001FF5A4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1F699C9E24379B15001FF5A4 /* MediaPlayer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,6 +158,11 @@
 			dependencies = (
 			);
 			name = SimpleMusic;
+			packageProductDependencies = (
+				1F699C91243799C5001FF5A4 /* RxSwift */,
+				1F699C93243799C5001FF5A4 /* RxCocoa */,
+				1F699C9B24379A02001FF5A4 /* SnapKit */,
+			);
 			productName = SimpleMusic;
 			productReference = 1F699C612437928E001FF5A4 /* SimpleMusic.app */;
 			productType = "com.apple.product-type.application";
@@ -168,6 +191,10 @@
 				Base,
 			);
 			mainGroup = 1F699C582437928E001FF5A4;
+			packageReferences = (
+				1F699C90243799C5001FF5A4 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				1F699C9A24379A02001FF5A4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 1F699C622437928E001FF5A4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -441,6 +468,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1F699C90243799C5001FF5A4 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+		1F699C9A24379A02001FF5A4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1F699C91243799C5001FF5A4 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F699C90243799C5001FF5A4 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		1F699C93243799C5001FF5A4 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F699C90243799C5001FF5A4 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		1F699C9B24379A02001FF5A4 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F699C9A24379A02001FF5A4 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1F699C592437928E001FF5A4 /* Project object */;
 }
