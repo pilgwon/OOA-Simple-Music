@@ -47,6 +47,8 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>사용자의 음악 라이브러리 정보를 가져오는데 사용합니다</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

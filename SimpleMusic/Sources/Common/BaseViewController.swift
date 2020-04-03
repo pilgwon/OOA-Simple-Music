@@ -32,6 +32,8 @@ class BaseViewController: UIViewController {
     }
     
     func style() {
+        view.backgroundColor = UIColor.white
+        
     }
     
     func behavior() {
