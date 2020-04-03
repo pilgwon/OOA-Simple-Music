@@ -38,9 +38,9 @@ class LibraryMainViewController: BaseViewController {
     override func style() {
         super.style()
         
-        navigationItem.title = "SIMPLE MUSIC"
+        navigationItem.title = "라이브러리"
         
-        albumCollectionView.backgroundColor = UIColor.white
+        albumCollectionView.backgroundColor = UIColor.lightGray
     }
         
     override func behavior() {

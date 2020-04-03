@@ -50,9 +50,11 @@ class AlbumCollectionViewCell: BaseCollectionViewCell {
     override func style() {
         super.style()
         
+        backgroundColor = UIColor.white
+        
         layer.borderWidth = 1
         layer.borderColor = UIColor.lightGray.cgColor
-        layer.cornerRadius = 4
+        layer.cornerRadius = 8
         layer.masksToBounds = true
         
         artworkImageView.contentMode = .scaleAspectFill

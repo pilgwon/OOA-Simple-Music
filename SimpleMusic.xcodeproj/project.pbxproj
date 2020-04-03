@@ -24,6 +24,8 @@
 		1F699C9F24379B15001FF5A4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F699C9E24379B15001FF5A4 /* MediaPlayer.framework */; };
 		1F699CA12437A0A9001FF5A4 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CA02437A0A9001FF5A4 /* BaseCollectionViewCell.swift */; };
 		1F699CA32437A21A001FF5A4 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CA22437A21A001FF5A4 /* AlbumCollectionViewCell.swift */; };
+		1F699CA62437B0BE001FF5A4 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CA52437B0BE001FF5A4 /* BaseNavigationController.swift */; };
+		1F699CAB2437B501001FF5A4 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CAA2437B501001FF5A4 /* AlbumViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		1F699C9E24379B15001FF5A4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		1F699CA02437A0A9001FF5A4 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		1F699CA22437A21A001FF5A4 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		1F699CA52437B0BE001FF5A4 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
+		1F699CAA2437B501001FF5A4 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +114,10 @@
 		1F699C7A243792D5001FF5A4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1F699CA42437B0AB001FF5A4 /* Base */,
 				1F699C85243796D0001FF5A4 /* Common */,
 				1F699C822437962C001FF5A4 /* Library */,
+				1F699CA72437B4C2001FF5A4 /* Album */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -130,8 +136,6 @@
 			children = (
 				1F699C642437928E001FF5A4 /* AppDelegate.swift */,
 				1F699C662437928E001FF5A4 /* SceneDelegate.swift */,
-				1F699C86243796E6001FF5A4 /* BaseViewController.swift */,
-				1F699CA02437A0A9001FF5A4 /* BaseCollectionViewCell.swift */,
 				1F699C882437970A001FF5A4 /* UIViewControllerPreview.swift */,
 				1F699C8A24379711001FF5A4 /* UIViewPreview.swift */,
 			);
@@ -144,6 +148,24 @@
 				1F699C9E24379B15001FF5A4 /* MediaPlayer.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1F699CA42437B0AB001FF5A4 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				1F699C86243796E6001FF5A4 /* BaseViewController.swift */,
+				1F699CA02437A0A9001FF5A4 /* BaseCollectionViewCell.swift */,
+				1F699CA52437B0BE001FF5A4 /* BaseNavigationController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		1F699CA72437B4C2001FF5A4 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				1F699CAA2437B501001FF5A4 /* AlbumViewController.swift */,
+			);
+			path = Album;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +289,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F699CAB2437B501001FF5A4 /* AlbumViewController.swift in Sources */,
+				1F699CA62437B0BE001FF5A4 /* BaseNavigationController.swift in Sources */,
 				1F699C8F2437978F001FF5A4 /* L10n.swift in Sources */,
 				1F699C652437928E001FF5A4 /* AppDelegate.swift in Sources */,
 				1F699CA12437A0A9001FF5A4 /* BaseCollectionViewCell.swift in Sources */,
