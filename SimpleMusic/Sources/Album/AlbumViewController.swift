@@ -8,6 +8,8 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 import MediaPlayer
 
 class AlbumViewController: BaseViewController {
@@ -15,8 +17,7 @@ class AlbumViewController: BaseViewController {
     private let mainStackView: UIStackView = UIStackView()
     private let albumInfoView: AlbumInfoView = AlbumInfoView()
     private let albumActionView: AlbumActionView = AlbumActionView()
-    
-    private let musicListView: UIView = UIView()
+    private let musicPlayer: MPMusicPlayerController = MPMusicPlayerController.systemMusicPlayer
     
     var album: MPMediaItemCollection?
 
@@ -28,7 +29,6 @@ class AlbumViewController: BaseViewController {
         
         mainStackView.addArrangedSubview(albumInfoView)
         mainStackView.addArrangedSubview(albumActionView)
-        mainStackView.addArrangedSubview(musicListView)
     }
         
     override func layout() {
@@ -50,10 +50,6 @@ class AlbumViewController: BaseViewController {
         albumActionView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
         }
-        
-        musicListView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-        }
     }
         
     override func style() {
@@ -69,55 +65,44 @@ class AlbumViewController: BaseViewController {
         albumInfoView.updateInfo(album)
         
         for (index, item) in album.items.enumerated() {
-            let itemView: UIView = generateMusicItemView(index: index, item: item)
-            mainStackView.addArrangedSubview(itemView)
-            itemView.snp.makeConstraints {
+            let itemRow: AlbumItemRow = AlbumItemRow()
+            mainStackView.addArrangedSubview(itemRow)
+            itemRow.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview()
             }
+            itemRow.updateInfo(index: index, item: item)
+            itemRow.button.rx.tap
+                .subscribe { [weak self] _ in
+                    guard let self = self else { return }
+                    self.musicPlayer.shuffleMode = .off
+                    self.musicPlayer.setQueue(with: album)
+                    self.musicPlayer.nowPlayingItem = item
+                    self.musicPlayer.play()
+                }
+                .disposed(by: disposeBag)
         }
-    }
-    
-    func generateMusicItemView(index: Int, item: MPMediaItem) -> UIView {
-        let itemView: UIView = UIView()
-        
-        let numberLabel: UILabel = UILabel()
-        itemView.addSubview(numberLabel)
-        numberLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(10)
-            $0.centerY.equalToSuperview()
-            $0.width.equalTo(20)
-        }
-        numberLabel.text = "\(index)"
-        numberLabel.textAlignment = .right
-        numberLabel.textColor = UIColor.lightGray
-        numberLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        
-        let titleLabel: UILabel = UILabel()
-        itemView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints {
-            $0.leading.equalTo(numberLabel.snp.trailing).offset(10)
-            $0.top.trailing.equalToSuperview().inset(10)
-        }
-        titleLabel.text = item.title ?? "-"
-        titleLabel.textColor = UIColor.black
-        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        
-        let artistLabel: UILabel = UILabel()
-        itemView.addSubview(artistLabel)
-        artistLabel.snp.makeConstraints {
-            $0.leading.equalTo(numberLabel.snp.trailing).offset(10)
-            $0.top.equalTo(titleLabel.snp.bottom)
-            $0.trailing.bottom.equalToSuperview().inset(10)
-        }
-        artistLabel.text = item.artist ?? "-"
-        artistLabel.textColor = UIColor.lightGray
-        artistLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        
-        return itemView
     }
         
     override func behavior() {
         super.behavior()
+        
+        albumActionView.playButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self, let album = self.album else { return }
+                self.musicPlayer.shuffleMode = .off
+                self.musicPlayer.setQueue(with: album)
+                self.musicPlayer.play()
+            }
+            .disposed(by: disposeBag)
+        
+        albumActionView.shuffleButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self, let album = self.album else { return }
+                self.musicPlayer.shuffleMode = .songs
+                self.musicPlayer.setQueue(with: album)
+                self.musicPlayer.play()
+            }
+            .disposed(by: disposeBag)
     }
 }
 

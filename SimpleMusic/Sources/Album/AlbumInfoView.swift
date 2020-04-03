@@ -37,11 +37,13 @@ class AlbumInfoView: BaseView {
         albumTitleLabel.snp.makeConstraints {
             $0.top.equalTo(albumArtworkImageView.snp.top).offset(10)
             $0.leading.equalTo(albumArtworkImageView.snp.trailing).offset(10)
+            $0.trailing.equalToSuperview().inset(10)
         }
         
         albumArtistLabel.snp.makeConstraints {
             $0.top.equalTo(albumTitleLabel.snp.bottom).offset(5)
             $0.leading.equalTo(albumArtworkImageView.snp.trailing).offset(10)
+            $0.trailing.equalToSuperview().inset(10)
         }
         
         albumInfoDivider.snp.makeConstraints {
@@ -69,10 +71,6 @@ class AlbumInfoView: BaseView {
         albumArtistLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         
         albumInfoDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
-    }
-        
-    override func behavior() {
-        super.behavior()
     }
     
     func updateInfo(_ album: MPMediaItemCollection) {

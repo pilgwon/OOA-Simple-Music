@@ -12,26 +12,26 @@ import SnapKit
 import MediaPlayer
 
 class AlbumActionView: BaseView {
-    private let actionPlayButton: UIButton = UIButton()
-    private let actionShuffleButton: UIButton = UIButton()
+    let playButton: UIButton = UIButton(type: .system)
+    let shuffleButton: UIButton = UIButton(type: .system)
 
     override func addSubviews() {
         super.addSubviews()
         
-        addSubview(actionPlayButton)
-        addSubview(actionShuffleButton)
+        addSubview(playButton)
+        addSubview(shuffleButton)
     }
         
     override func layout() {
         super.layout()
         
-        actionPlayButton.snp.makeConstraints {
+        playButton.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview().inset(10)
             $0.height.equalTo(50)
             $0.width.equalToSuperview().dividedBy(2).offset(-15)
         }
         
-        actionShuffleButton.snp.makeConstraints {
+        shuffleButton.snp.makeConstraints {
             $0.top.trailing.bottom.equalToSuperview().inset(10)
             $0.height.equalTo(50)
             $0.width.equalToSuperview().dividedBy(2).offset(-15)
@@ -41,22 +41,18 @@ class AlbumActionView: BaseView {
     override func style() {
         super.style()
         
-        actionPlayButton.setTitle("순차 재생", for: .normal)
-        actionPlayButton.setTitleColor(UIColor.white, for: .normal)
-        actionPlayButton.backgroundColor = UIColor.purple.withAlphaComponent(0.7)
-        actionPlayButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        actionPlayButton.layer.cornerRadius = 8
-        actionPlayButton.layer.masksToBounds = true
+        playButton.setTitle("순차 재생", for: .normal)
+        playButton.setTitleColor(UIColor.white, for: .normal)
+        playButton.backgroundColor = UIColor.purple.withAlphaComponent(0.7)
+        playButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        playButton.layer.cornerRadius = 8
+        playButton.layer.masksToBounds = true
         
-        actionShuffleButton.setTitle("랜덤 재생", for: .normal)
-        actionShuffleButton.setTitleColor(UIColor.white, for: .normal)
-        actionShuffleButton.backgroundColor = UIColor.purple.withAlphaComponent(0.7)
-        actionShuffleButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        actionShuffleButton.layer.cornerRadius = 8
-        actionShuffleButton.layer.masksToBounds = true
-    }
-        
-    override func behavior() {
-        super.behavior()
+        shuffleButton.setTitle("랜덤 재생", for: .normal)
+        shuffleButton.setTitleColor(UIColor.white, for: .normal)
+        shuffleButton.backgroundColor = UIColor.purple.withAlphaComponent(0.7)
+        shuffleButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        shuffleButton.layer.cornerRadius = 8
+        shuffleButton.layer.masksToBounds = true
     }
 }
