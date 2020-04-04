@@ -18,6 +18,8 @@
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Asset {
+  internal static let playbackStatePause = ImageAsset(name: "playback_state_pause")
+  internal static let playbackStatePlay = ImageAsset(name: "playback_state_play")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
