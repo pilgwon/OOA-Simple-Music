@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SnapKit
+import RxSwift
+import RxCocoa
 import MediaPlayer
 
 class LibraryMainViewController: BaseViewController {
@@ -19,10 +22,14 @@ class LibraryMainViewController: BaseViewController {
     }()
     private let cellIdentifier: String = "albumCellIdentifier"
     
+    private let miniPlayerView: MiniPlayerView = MiniPlayerView()
+    private var timer: Observable<NSInteger> = Observable<NSInteger>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    
     override func addSubviews() {
         super.addSubviews()
         
         view.addSubview(albumCollectionView)
+        view.addSubview(miniPlayerView)
         
         albumCollectionView.register(AlbumCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
     }
@@ -31,7 +38,13 @@ class LibraryMainViewController: BaseViewController {
         super.layout()
         
         albumCollectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(80)
+        }
+        
+        miniPlayerView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(80)
         }
     }
         
@@ -48,6 +61,15 @@ class LibraryMainViewController: BaseViewController {
         
         albumCollectionView.delegate = self
         albumCollectionView.dataSource = self
+        
+        miniPlayerView.updatePlayerState()
+        
+        timer
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.miniPlayerView.updatePlayerState()
+            })
+            .disposed(by: disposeBag)
     }
     
     override func viewDidLoad() {
