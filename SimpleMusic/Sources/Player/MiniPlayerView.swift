@@ -13,6 +13,7 @@ import RxCocoa
 import MediaPlayer
 
 class MiniPlayerView: BaseView {
+    let control: UIControl = UIControl()
     private let progressView: UIProgressView = UIProgressView()
     private let playbackButton: UIButton = UIButton()
     private let musicTitleLabel: UILabel = UILabel()
@@ -24,6 +25,7 @@ class MiniPlayerView: BaseView {
     override func addSubviews() {
         super.addSubviews()
         
+        addSubview(control)
         addSubview(progressView)
         addSubview(playbackButton)
         addSubview(musicTitleLabel)
@@ -33,6 +35,10 @@ class MiniPlayerView: BaseView {
         
     override func layout() {
         super.layout()
+        
+        control.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         progressView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()

@@ -128,6 +128,15 @@ class AlbumViewController: BaseViewController {
                 self.miniPlayerView.updatePlayerState()
             })
             .disposed(by: disposeBag)
+            
+        miniPlayerView.control.rx.controlEvent(.touchUpInside)
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                let vc: NowPlayingViewController = NowPlayingViewController()
+                vc.modalPresentationStyle = .pageSheet
+                self.present(vc, animated: true, completion: nil)
+            }
+            .disposed(by: disposeBag)
     }
     
     func updateMusicQueue(_ album: MPMediaItemCollection, shuffleMode: MPMusicShuffleMode = .off, nowPlayingItem: MPMediaItem? = nil) {

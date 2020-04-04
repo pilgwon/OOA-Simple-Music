@@ -80,6 +80,15 @@ class LibraryMainViewController: BaseViewController {
                 self.loadAlbums()
             }
             .disposed(by: disposeBag)
+        
+        miniPlayerView.control.rx.controlEvent(.touchUpInside)
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                let vc: NowPlayingViewController = NowPlayingViewController()
+                vc.modalPresentationStyle = .pageSheet
+                self.present(vc, animated: true, completion: nil)
+            }
+            .disposed(by: disposeBag)
     }
     
     override func viewDidLoad() {

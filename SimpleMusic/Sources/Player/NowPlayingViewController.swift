@@ -15,6 +15,8 @@ import MediaPlayer
 class NowPlayingViewController: BaseViewController {
     private let mainScrollView: UIScrollView = UIScrollView()
     private let mainStackView: UIStackView = UIStackView()
+    private let handleWrapperView: UIView = UIView()
+    private let handleView: UIView = UIView()
     private let artworkImageView: UIImageView = UIImageView()
     private let titleLabel: UILabel = UILabel()
     private let artistLabel: UILabel = UILabel()
@@ -38,6 +40,9 @@ class NowPlayingViewController: BaseViewController {
         view.addSubview(mainScrollView)
         mainScrollView.addSubview(mainStackView)
         
+        mainStackView.addArrangedSubview(generateSpacerView(20))
+        mainStackView.addArrangedSubview(handleWrapperView)
+        mainStackView.addArrangedSubview(generateSpacerView(20))
         mainStackView.addArrangedSubview(artworkImageView)
         mainStackView.addArrangedSubview(generateSpacerView(30))
         mainStackView.addArrangedSubview(titleLabel)
@@ -49,6 +54,8 @@ class NowPlayingViewController: BaseViewController {
         mainStackView.addArrangedSubview(controlStackView)
         mainStackView.addArrangedSubview(generateSpacerView(30))
         mainStackView.addArrangedSubview(volumeView)
+        
+        handleWrapperView.addSubview(handleView)
         
         timeStackView.addArrangedSubview(playbackTimeLabel)
         timeStackView.addArrangedSubview(remainTimeLabel)
@@ -78,6 +85,17 @@ class NowPlayingViewController: BaseViewController {
         mainStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalToSuperview()
+        }
+        
+        handleWrapperView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(10)
+        }
+        
+        handleView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(50)
+            $0.height.equalToSuperview()
         }
         
         artworkImageView.snp.makeConstraints {
@@ -148,6 +166,11 @@ class NowPlayingViewController: BaseViewController {
         mainStackView.axis = .vertical
         mainStackView.spacing = 0
         mainStackView.distribution = .equalSpacing
+        
+        handleView.backgroundColor = UIColor.black
+        handleView.alpha = 0.3
+        handleView.layer.cornerRadius = 5
+        handleView.layer.masksToBounds = true
         
         artworkImageView.image = Asset.dummyArtwork.image
         artworkImageView.contentMode = .scaleAspectFill
