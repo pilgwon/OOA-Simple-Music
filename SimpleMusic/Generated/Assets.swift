@@ -19,6 +19,15 @@
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Asset {
   internal static let dummyArtwork = ImageAsset(name: "dummy_artwork")
+  internal static let nowPlayingFastForward = ImageAsset(name: "now_playing_fast_forward")
+  internal static let nowPlayingPause = ImageAsset(name: "now_playing_pause")
+  internal static let nowPlayingPlay = ImageAsset(name: "now_playing_play")
+  internal static let nowPlayingRepeat = ImageAsset(name: "now_playing_repeat")
+  internal static let nowPlayingRepeatDisabled = ImageAsset(name: "now_playing_repeat_disabled")
+  internal static let nowPlayingRepeatOne = ImageAsset(name: "now_playing_repeat_one")
+  internal static let nowPlayingRewind = ImageAsset(name: "now_playing_rewind")
+  internal static let nowPlayingShuffle = ImageAsset(name: "now_playing_shuffle")
+  internal static let nowPlayingShuffleDisabled = ImageAsset(name: "now_playing_shuffle_disabled")
   internal static let playbackStatePause = ImageAsset(name: "playback_state_pause")
   internal static let playbackStatePlay = ImageAsset(name: "playback_state_play")
 }

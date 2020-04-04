@@ -63,8 +63,8 @@ class NowPlayingViewController: BaseViewController {
         controlStackView.addArrangedSubview(repeatButton)
         controlStackView.addArrangedSubview(rewindButton)
         controlStackView.addArrangedSubview(playbackButton)
-        controlStackView.addArrangedSubview(shuffleButton)
         controlStackView.addArrangedSubview(fastForwardButton)
+        controlStackView.addArrangedSubview(shuffleButton)
     }
     
     func generateSpacerView(_ height: Float) -> UIView {
@@ -135,27 +135,28 @@ class NowPlayingViewController: BaseViewController {
         }
         
         repeatButton.snp.makeConstraints {
-            $0.height.equalTo(50)
+            $0.height.equalTo(40)
         }
         
         rewindButton.snp.makeConstraints {
-            $0.height.equalTo(50)
+            $0.height.equalTo(40)
         }
         
         playbackButton.snp.makeConstraints {
-            $0.height.equalTo(50)
+            $0.height.equalTo(40)
         }
         
         fastForwardButton.snp.makeConstraints {
-            $0.height.equalTo(50)
+            $0.height.equalTo(40)
         }
         
         shuffleButton.snp.makeConstraints {
-            $0.height.equalTo(50)
+            $0.height.equalTo(40)
         }
         
         volumeView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
         }
     }
         
@@ -172,7 +173,6 @@ class NowPlayingViewController: BaseViewController {
         handleView.layer.cornerRadius = 5
         handleView.layer.masksToBounds = true
         
-        artworkImageView.image = Asset.dummyArtwork.image
         artworkImageView.contentMode = .scaleAspectFill
         artworkImageView.clipsToBounds = true
         artworkImageView.layer.cornerRadius = 8
@@ -180,11 +180,9 @@ class NowPlayingViewController: BaseViewController {
         artworkImageView.layer.borderWidth = 1
         artworkImageView.layer.masksToBounds = true
         
-        titleLabel.text = "PEOPLE (Feat. Paloalto, The Quiett)"
         titleLabel.textColor = UIColor.black
         titleLabel.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         
-        artistLabel.text = "CODE KUNST"
         artistLabel.textColor = UIColor.black
         artistLabel.font = UIFont.systemFont(ofSize: 25, weight: .regular)
         
@@ -197,12 +195,10 @@ class NowPlayingViewController: BaseViewController {
         timeStackView.spacing = 0
         timeStackView.distribution = .fillEqually
         
-        playbackTimeLabel.text = "0:00"
         playbackTimeLabel.textColor = UIColor.black
         playbackTimeLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         playbackTimeLabel.textAlignment = .left
         
-        remainTimeLabel.text = "-0:00"
         remainTimeLabel.textColor = UIColor.black
         remainTimeLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         remainTimeLabel.textAlignment = .right
@@ -212,25 +208,122 @@ class NowPlayingViewController: BaseViewController {
         controlStackView.spacing = 0
         controlStackView.distribution = .fillEqually
         
-        repeatButton.setImage(Asset.playbackStatePlay.image, for: .normal)
+        rewindButton.setImage(Asset.nowPlayingRewind.image, for: .normal)
         
-        rewindButton.setImage(Asset.playbackStatePlay.image, for: .normal)
+        fastForwardButton.setImage(Asset.nowPlayingFastForward.image, for: .normal)
         
-        playbackButton.setImage(Asset.playbackStatePlay.image, for: .normal)
-        
-        fastForwardButton.setImage(Asset.playbackStatePlay.image, for: .normal)
-        
-        shuffleButton.setImage(Asset.playbackStatePlay.image, for: .normal)
+        volumeView.showsRouteButton = false
     }
         
     override func behavior() {
         super.behavior()
         
+        updatePlayerState()
+        
         timer
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
+                self.updatePlayerState()
             })
             .disposed(by: disposeBag)
+            
+        playbackButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                if Environment.shared.musicPlayer.playbackState == .playing {
+                    Environment.shared.musicPlayer.stop()
+                } else {
+                    Environment.shared.musicPlayer.play()
+                }
+                self.updatePlaybackButtonState()
+            }
+            .disposed(by: disposeBag)
+        
+        rewindButton.rx.tap
+            .subscribe { _ in
+                if Int(Environment.shared.musicPlayer.currentPlaybackTime) < 5 {
+                    Environment.shared.musicPlayer.skipToPreviousItem()
+                } else {
+                    Environment.shared.musicPlayer.skipToBeginning()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        fastForwardButton.rx.tap
+            .subscribe { _ in
+                Environment.shared.musicPlayer.skipToNextItem()
+            }
+            .disposed(by: disposeBag)
+        
+        shuffleButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                if Environment.shared.musicPlayer.shuffleMode == .off {
+                    Environment.shared.musicPlayer.shuffleMode = .songs
+                } else {
+                    Environment.shared.musicPlayer.shuffleMode = .off
+                }
+                self.updateShuffleButtonState()
+            }
+            .disposed(by: disposeBag)
+        
+        repeatButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                switch Environment.shared.musicPlayer.repeatMode {
+                case .all:
+                    Environment.shared.musicPlayer.repeatMode = .one
+                case .one:
+                    Environment.shared.musicPlayer.repeatMode = .none
+                default:
+                    Environment.shared.musicPlayer.repeatMode = .all
+                }
+                self.updateRepeatButtonState()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func updatePlayerState() {
+        artworkImageView.image = Environment.shared.musicPlayer.nowPlayingItem?.artwork?.image(at: CGSize(width: 400, height: 400))
+        titleLabel.text = Environment.shared.musicPlayer.nowPlayingItem?.title ?? "-"
+        artistLabel.text = Environment.shared.musicPlayer.nowPlayingItem?.artist ?? "-"
+        
+        let duration: Int = Int(Environment.shared.musicPlayer.nowPlayingItem?.playbackDuration ?? 0)
+        let playbackTime: Int = Int(Environment.shared.musicPlayer.currentPlaybackTime)
+        let remainTime: Int = duration - playbackTime
+        progressView.progress = duration == 0 ? 0 : Float(playbackTime) / Float(duration)
+        playbackTimeLabel.text = "\(playbackTime / 60):\(String(format: "%02d", playbackTime % 60))"
+        remainTimeLabel.text = "-\(remainTime / 60):\(String(format: "%02d", remainTime % 60))"
+        
+        updatePlaybackButtonState()
+        updateRepeatButtonState()
+        updateShuffleButtonState()
+    }
+    
+    func updatePlaybackButtonState() {
+        playbackButton.setImage(Environment.shared.musicPlayer.playbackState == .playing ? Asset.nowPlayingPause.image : Asset.nowPlayingPlay.image, for: .normal)
+    }
+    
+    func updateRepeatButtonState() {
+        switch Environment.shared.musicPlayer.repeatMode {
+        case .none:
+            repeatButton.setImage(Asset.nowPlayingRepeatDisabled.image, for: .normal)
+        case .all:
+            repeatButton.setImage(Asset.nowPlayingRepeat.image, for: .normal)
+        case .one:
+            repeatButton.setImage(Asset.nowPlayingRepeatOne.image, for: .normal)
+        default:
+            repeatButton.setImage(Asset.nowPlayingRepeat.image, for: .normal)
+        }
+    }
+    
+    func updateShuffleButtonState() {
+        switch Environment.shared.musicPlayer.shuffleMode {
+        case .off:
+            shuffleButton.setImage(Asset.nowPlayingShuffleDisabled.image, for: .normal)
+        default:
+            shuffleButton.setImage(Asset.nowPlayingShuffle.image, for: .normal)
+        }
     }
 }
 
