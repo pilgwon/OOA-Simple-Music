@@ -13,20 +13,23 @@ import RxCocoa
 import MediaPlayer
 
 class LibraryMainViewController: BaseViewController {
-    private var albumList: [MPMediaItemCollection] = []
-    
     private let albumCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
     private let cellIdentifier: String = "albumCellIdentifier"
+    private let reloadBarButton: UIBarButtonItem = UIBarButtonItem(title: "리로드", style: .plain, target: nil, action: nil)
+    
+    private var albumList: [MPMediaItemCollection] = []
     
     private let miniPlayerView: MiniPlayerView = MiniPlayerView()
     private var timer: Observable<NSInteger> = Observable<NSInteger>.interval(.seconds(1), scheduler: MainScheduler.instance)
     
     override func addSubviews() {
         super.addSubviews()
+        
+        navigationItem.rightBarButtonItem = reloadBarButton
         
         view.addSubview(albumCollectionView)
         view.addSubview(miniPlayerView)
@@ -70,11 +73,21 @@ class LibraryMainViewController: BaseViewController {
                 self.miniPlayerView.updatePlayerState()
             })
             .disposed(by: disposeBag)
+        
+        reloadBarButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                self.loadAlbums()
+            }
+            .disposed(by: disposeBag)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadAlbums()
+    }
+    
+    func loadAlbums() {
         if let albums = MPMediaQuery.albums().collections {
             albumList = albums
             albumCollectionView.reloadData()
