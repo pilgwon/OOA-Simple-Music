@@ -32,6 +32,7 @@
 		1F699CB32437C2C3001FF5A4 /* AlbumItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CB22437C2C3001FF5A4 /* AlbumItemRow.swift */; };
 		1F699CB62438DE4A001FF5A4 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CB52438DE4A001FF5A4 /* MiniPlayerView.swift */; };
 		1F699CB82438E31D001FF5A4 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CB72438E31D001FF5A4 /* Environment.swift */; };
+		1F699CBC2438FB59001FF5A4 /* NowPlayingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F699CBB2438FB59001FF5A4 /* NowPlayingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		1F699CB22437C2C3001FF5A4 /* AlbumItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumItemRow.swift; sourceTree = "<group>"; };
 		1F699CB52438DE4A001FF5A4 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
 		1F699CB72438E31D001FF5A4 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		1F699CBB2438FB59001FF5A4 /* NowPlayingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				1F699CB52438DE4A001FF5A4 /* MiniPlayerView.swift */,
+				1F699CBB2438FB59001FF5A4 /* NowPlayingViewController.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				1F699CA32437A21A001FF5A4 /* AlbumCollectionViewCell.swift in Sources */,
 				1F699C87243796E6001FF5A4 /* BaseViewController.swift in Sources */,
 				1F699C892437970A001FF5A4 /* UIViewControllerPreview.swift in Sources */,
+				1F699CBC2438FB59001FF5A4 /* NowPlayingViewController.swift in Sources */,
 				1F699CB62438DE4A001FF5A4 /* MiniPlayerView.swift in Sources */,
 				1F699CAF2437C0AE001FF5A4 /* AlbumInfoView.swift in Sources */,
 				1F699C672437928E001FF5A4 /* SceneDelegate.swift in Sources */,
