@@ -18,16 +18,10 @@ class AlbumViewController: BaseViewController {
     private let albumInfoView: AlbumInfoView = AlbumInfoView()
     private let albumActionView: AlbumActionView = AlbumActionView()
     private let bottomBlankView: UIView = UIView()
-    private let musicPlayer: MPMusicPlayerController = MPMusicPlayerController.systemMusicPlayer
-    
-    private let miniPlayerView: UIView = UIView()
-    private let playerProgressView: UIProgressView = UIProgressView()
-    private let playerPlaybackStateButton: UIButton = UIButton()
-    private let playerAlbumTitleLabel: UILabel = UILabel()
-    private let playerAlbumArtistLabel: UILabel = UILabel()
-    private let playerAlbumArtworkImageView: UIImageView = UIImageView()
+    private let miniPlayerView: MiniPlayerView = MiniPlayerView()
     
     var album: MPMediaItemCollection?
+    private var timer: Observable<NSInteger> = Observable<NSInteger>.interval(.seconds(1), scheduler: MainScheduler.instance)
 
     override func addSubviews() {
         super.addSubviews()
@@ -43,11 +37,6 @@ class AlbumViewController: BaseViewController {
         mainStackView.addArrangedSubview(bottomBlankView)
         
         view.addSubview(miniPlayerView)
-        miniPlayerView.addSubview(playerProgressView)
-        miniPlayerView.addSubview(playerPlaybackStateButton)
-        miniPlayerView.addSubview(playerAlbumTitleLabel)
-        miniPlayerView.addSubview(playerAlbumArtistLabel)
-        miniPlayerView.addSubview(playerAlbumArtworkImageView)
     }
     
     func addItemRows() {
@@ -98,37 +87,6 @@ class AlbumViewController: BaseViewController {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(80)
         }
-        
-        playerProgressView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(5)
-        }
-        
-        playerPlaybackStateButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(15)
-            $0.leading.equalToSuperview().inset(10)
-            $0.size.equalTo(40)
-        }
-        
-        playerAlbumArtworkImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(15)
-            $0.trailing.equalToSuperview().inset(10)
-            $0.size.equalTo(40)
-        }
-        
-        playerAlbumTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(15)
-            $0.leading.equalTo(playerPlaybackStateButton.snp.trailing).offset(10)
-            $0.trailing.equalTo(playerAlbumArtworkImageView.snp.leading).offset(-10)
-            $0.height.equalTo(20)
-        }
-        
-        playerAlbumArtistLabel.snp.makeConstraints {
-            $0.top.equalTo(playerAlbumTitleLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(playerPlaybackStateButton.snp.trailing).offset(10)
-            $0.trailing.equalTo(playerAlbumArtworkImageView.snp.leading).offset(-10)
-            $0.height.equalTo(15)
-        }
     }
         
     override func style() {
@@ -140,26 +98,6 @@ class AlbumViewController: BaseViewController {
         mainStackView.axis = .vertical
         mainStackView.spacing = 0
         mainStackView.distribution = .equalSpacing
-        
-        miniPlayerView.backgroundColor = UIColor.yellow
-        
-        playerProgressView.tintColor = UIColor.purple
-        playerProgressView.progress = 0
-        
-        playerPlaybackStateButton.setImage(Asset.playbackStatePlay.image, for: .normal)
-        
-        playerAlbumTitleLabel.text = "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum"
-        playerAlbumTitleLabel.textAlignment = .center
-        playerAlbumTitleLabel.textColor = UIColor.black
-        playerAlbumTitleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        
-        playerAlbumArtistLabel.text = "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum"
-        playerAlbumArtistLabel.textAlignment = .center
-        playerAlbumArtistLabel.textColor = UIColor.black
-        playerAlbumArtistLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        
-        playerAlbumArtworkImageView.clipsToBounds = true
-        playerAlbumArtworkImageView.contentMode = .scaleAspectFill
         
         guard let album = album else { return }
         albumInfoView.updateInfo(album)
@@ -181,15 +119,24 @@ class AlbumViewController: BaseViewController {
                 self.updateMusicQueue(album, shuffleMode: .songs)
             }
             .disposed(by: disposeBag)
+        
+        miniPlayerView.updatePlayerState()
+        
+        timer
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.miniPlayerView.updatePlayerState()
+            })
+            .disposed(by: disposeBag)
     }
     
     func updateMusicQueue(_ album: MPMediaItemCollection, shuffleMode: MPMusicShuffleMode = .off, nowPlayingItem: MPMediaItem? = nil) {
-        musicPlayer.shuffleMode = shuffleMode
-        musicPlayer.setQueue(with: album)
+        Environment.shared.musicPlayer.shuffleMode = shuffleMode
+        Environment.shared.musicPlayer.setQueue(with: album)
         if let item = nowPlayingItem {
-            musicPlayer.nowPlayingItem = item
+            Environment.shared.musicPlayer.nowPlayingItem = item
         }
-        musicPlayer.play()
+        Environment.shared.musicPlayer.play()
     }
 }
 
