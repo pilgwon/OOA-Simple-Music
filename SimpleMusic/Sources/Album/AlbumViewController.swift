@@ -48,7 +48,7 @@ class AlbumViewController: BaseViewController {
             itemRow.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview()
             }
-            itemRow.updateInfo(index: index, item: item)
+            itemRow.updateInfo(index: index + 1, item: item)
             itemRow.button.rx.tap
                 .subscribe { [weak self] _ in
                     guard let self = self else { return }
